@@ -6,8 +6,9 @@
     <div class="row q-gutter-md flex flex-center q-mb-lg">
       <div :class="$q.screen.xs ? 'col-xs-6' : 'col-4'">
         <q-select
-          :options="course_options"
+          :options="getCourses"
           v-model="course_id"
+          emit-value
           label="Choose Course"
           :rules="[val => !!val || 'Field is required']"
         />
@@ -24,13 +25,13 @@
       <q-btn
         color="primary"
         label="View Appointed Courses"
-        @click="showForm = true"
+        
       />
     </div>
     <div v-if="showForm" class="row q-mx-lg flex flex-center">
       <q-table
         class="q-pt-lg q-my-lg q-mx-xs col-xs-12"
-         :data="getCourse"
+         :data="getCourses"
         :columns="columns"
         row-key="id"
         :filter="filter"
@@ -93,22 +94,18 @@ export default {
       ]
     };
   },
-  //  mounted() {
-  //   this.$store
-  //     .dispatch("getCourseCodes")
-  //     .then(res => {
-  //       // console.log(res)
-  //     })
-  //     .catch(err => {});
-  // },
+ 
 
   computed: {
-    getCourse() {
-      //console.log(this.$store.getters.getCourse);
-       return this.$store.getters.getCourse;
-    },
-    getCourseCode() {
-     console.log(this.$store.getters.getCourseCode);
+    getCourses() {
+      var courses = [];
+      this.$store.getters.getCourse.forEach(course => {
+        courses.push({
+          label: course.course_code + " " + course.title,
+          value: course.id
+        });
+      });
+      return courses;
     }
   }
 };

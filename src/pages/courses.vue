@@ -81,7 +81,7 @@
           <q-btn
             color="primary"
             size="md"
-            label="ADD Course"
+            label="Create Course"
             padding="0.5rem 2.2rem"
             dense
             :class="$q.screen.xs? 'full-width': ''"
@@ -164,7 +164,7 @@ export default {
     return {
       showForm: false,
       showItem: false,
-      filter: "",
+      filter: null,
       option1: ["Major", "Elective"],
       option2: ["First Semester", "Second Semester"],
       course: {

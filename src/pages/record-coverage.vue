@@ -1,17 +1,24 @@
 <template>
   <q-page class="q-ma-lg">
     <div class="row flex flex-center q-mt-lg">
-      <div class="text-h5">
+      <div class="  text-h5 text-weight-bold">
         Record Course Work
       </div>
     </div>
     <div class="row flex flex-center q-gutter-md q-mt-lg q-mb-lg">
-      <div class="col-2"></div>
+      <div class="col-1"></div>
+      <div class="col-2">
+           <q-select
+              :options="year_options"
+              v-model="year"
+              label="Choose year "
+              :rules="[val => !!val || 'Field is required']"
+            />
+      </div>
       <div class="col-4">
         <q-select
           :options="getCourses"
           v-model="coverage.course_id"
-          emit-value
           label="Choose Course "
           :rules="[val => !!val || 'Field is required']"
         />
@@ -21,23 +28,24 @@
           color="primary"
           label="display Coverage information"
           @click="SubmitFormData"
+         
         >
         </q-btn>
       </div>
-      <div class="col-2"></div>
+      <div class="col-1"></div>
     </div>
     <div class="row flex flex-center" v-if="showForm">
       <q-card class="my-card q-mb-lg">
         <q-card-section class="bg-primary q-pa-lg">
           <div class="text-h5 text-center text-white">
-            Course Work for
+            Course Work for {{ this.coverage.course_id.label }}
           </div>
         </q-card-section>
         <q-card-section>
           <q-form class="q-gutter-md">
             <q-input
               type="number"
-              v-model="coverage.weekly"
+              v-model="coverage.week_number"
               label="Weekly"
               :rules="[
                 val =>
@@ -59,36 +67,43 @@
               :rules="[val => !!val || 'Field is required']"
             />
             <q-select
-              :options="option4"
-              v-model="coverage.topics_id"
+              :options="getCourseTopics"
+              v-model="coverage.topic_id"
+               
               label="Choose Topic "
               :rules="[val => !!val || 'Field is required']"
             />
             <q-select
               :options="getActivities"
-              v-model="coverage.activities_id"
-              emit-value
+              v-model="coverage.activity_id"
+              
               label="Choose Activity "
               :rules="[val => !!val || 'Field is required']"
             />
             <q-select
-              :options="option6"
-              v-model="coverage.lecturers_id"
+              :options="getCourseLecturers"
+              v-model="coverage.lecturer_id"
+              
               label="Choose Lecturer "
               :rules="[val => !!val || 'Field is required']"
             />
-            <div class="q-mt-md  q-gutter-lg q-mb-lg flex flex-center">
+            <div class="q-mt-md  q-mb-lg flex flex-center">
               <q-btn
                 type="submit"
-                class="q-pa-xs text-center"
+                class="q-pa-xs text-center q-mr-lg"
                 color="primary"
-                label="Save"
+                label="Record Work"
+                size="md"
+                @click="RecordCourseWork()"
               />
+               
               <q-btn
-                type="reset"
-                class=" q-pa-xs text-center"
-                color="secondary"
-                label="Reset"
+                
+                class="q-pa-xs text-center q-ml-lg"
+                color="red"
+                label="RESET"
+                size="md"
+                @click="Reset()"
               />
             </div>
           </q-form>
@@ -98,18 +113,21 @@
   </q-page>
 </template>
 <script>
+import {mapActions} from 'vuex'
+
 export default {
   data() {
     return {
       showForm: false,
+      year:null,
       coverage :{
-            course_id: "",
-            weekly: "",
-            day: "",
-            period: "",
-            topics_id: "",
-            activities_id: "",
-            lecturers_id: "",
+            course_id: null,
+            week_number: null,
+            day: null,
+            period:null,
+            topic_id:null,
+            activity_id:null,
+            lecturer_id:null,
       },
       option2: [
         "Monday",
@@ -119,28 +137,13 @@ export default {
         "Friday",
         "Saturday"
       ],
-      option3: ["07-09", "09-11", "11-13", "13-15", "15-17"],
-      option4: [
-        "Diffie-Hellman",
-        "RSA",
-        "Introduction to Cryptographic",
-        "Protocols"
+       year_options: [
+        "2019"+"/"+"2020",
+        "2020"+ "/"+ "2021",
       ],
-      option5: ["Lecture", "Tutorial", "Practical"],
-      option6: [
-        "Dr.  Nkweteyim Denis",
-        "Dr. Nyamsi Madeleine",
-        "Dr.Williams Shu"
-      ]
+      option3: ["07-09", "09-11", "11-13", "13-15", "15-17"],
+ 
     };
-  },
-  mounted() {
-    this.$store.dispatch("getActivities").then(res => {
-       // console.log("hello");
-    }).catch(res => {});
-    this.$store.dispatch("getTopics").then(res => {
-        //console.log("Helo");
-    }).catch(res =>{});
   },
   computed: {
     getCourses() {
@@ -161,13 +164,67 @@ export default {
           value: activity.id
         });
       });
-      console.log(activities);
+       
       return activities;
+    },
+    getCourseLecturers() {
+      var courseLecturer = [];
+       this.$store.getters.getCourseLecturers.forEach(lecturer => {
+          courseLecturer.push({
+          label:lecturer.first_name +" "+ lecturer.last_name,
+         value:lecturer.id
+        });
+       });
+      //console.log(courseLecturer);
+       return courseLecturer;
+    },
+    getCourseTopics(){
+      var topics = [];
+      this.$store.getters.getCourseTopics.forEach(topic  => {
+        topics.push({
+          label:topic.name,
+          value:topic.id
+        })
+      })
+      return topics
     }
   },
   methods: {
     SubmitFormData() {
       this.showForm = true;
+      this.GetCourseLecturers();
+      this.GetCourseTopics();
+      
+    },
+
+    GetCourseLecturers()
+    {
+      this.$store.dispatch("getCourseLecturers", this.coverage.course_id).then (res => {
+          //console.log(this.coverage.course_id)
+      })
+    },
+//get all course topics
+    GetCourseTopics()
+    {
+      this.$store.dispatch("getTopics", [this.coverage.course_id, this.year]).then(res => {
+        //console.log(this.year)
+      })
+    },
+//record work done for a course
+    RecordCourseWork()
+    {
+      this.$store.dispatch("RecordCourseWork", this.coverage).then (res => {
+         //console.log(this.coverage)
+      }).catch(err=>{})
+    },
+//reset fields
+    Reset(){
+      this.coverage.week_number = null;
+      this.coverage.day = null;
+      this.coverage.period = null;
+      this.coverage.topic_id = null;
+      this.coverage.activity_id = null;
+      this.coverage.lecturer_id = null;
     }
   },
    

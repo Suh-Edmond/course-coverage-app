@@ -32,3 +32,23 @@ import state from "./state"
 export const getActivities = (state) => {
     return state.activities
 }
+
+//get course Lecturers
+
+export const getCourseLecturers = (state) => {
+    return state.courseLecturer
+}
+
+//get course Topics
+export const getCourseTopics = (state) => {
+    return state.courseTopics
+}
+
+ //get course of a lecturer
+
+ export const getCourseOfLecturer = (state) => {
+     return state.courseOfLecturer
+ }
+
+
+

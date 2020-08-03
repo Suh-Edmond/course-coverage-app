@@ -5,5 +5,9 @@ export default {
   coverage:[],
   courseTopicNumber:null,
   courseCoveredTopicNumber:null,
-  activities :[]
+  activities :[],
+  courseLecturer:[],
+  courseTopics:[],
+  courseOfLecturer:[]
+ 
 };

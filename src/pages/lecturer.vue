@@ -63,24 +63,11 @@
       <q-card>
         <q-card-section class="row bg-primary q-pa-md">
           <div class="text-h5 text-white">Lecturers</div>
-          <q-space />
-          <q-btn
-            round
-            color="dark"
-            size="lg"
-            icon="add"
-            dense
-            @click="this.showForm = !this.showForm"
-          >
-            <q-tooltip>
-              Click to add a Lecturer
-            </q-tooltip>
-          </q-btn>
         </q-card-section>
         <q-card-section class="q-ma-lg">
           <div class="row">
             <q-table
-              :data="data"
+              
               :columns="columns"
               row-key="name"
               class="q-pt-lg"
@@ -115,7 +102,7 @@ export default {
       lecturer: {
         first_name: "",
         last_name: "",
-        matricule: "",
+        matricule_number: "",
         email: "",
         telephone: "",
         password: "",
@@ -150,10 +137,15 @@ export default {
           field: "telephone"
         }
       ],
-      data: []
+      
     };
   },
-   
+  // mounted () {
+  //   this.$store
+  //     .dispatch("addLecturer", this.lecturer)
+  //     .then(res => {})
+     
+  // }
   methods: {
     submitForm() {
       //console.log(this.course_delegate)

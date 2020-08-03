@@ -22,7 +22,10 @@
       :width="270"
       content-class="bg-grey-11"
     >
-      <div class="heading q-ma-lg  text-grey-10 text-h5">Dashboard</div>
+      <div class="heading q-ma-lg  text-h5 text-weight-bold flex flex-center">
+        <img src="~assets/statistics_image2.png" width="80" height="60" />
+        {{ heading }}
+      </div>
       <q-list v-for="nav in navs" :key="nav.id" class="text-light-blue-10">
         <q-item
           clickable
@@ -48,85 +51,90 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       left: false,
-       miniState: true,
-      navs :[
+      miniState: true,
+      heading: "Dashboard",
+      navs: [
         {
-          label:"Home",
-          icon:"home",
-          to:"/"
+          label: "Home",
+          icon: "home",
+          to: "/"
         },
         {
-          label:"Courses",
-          icon:"book",
-          to:"/course"
+          label: "Courses",
+          icon: "book",
+          to: "/course"
         },
         {
-          label:"Appointed Courses",
-          icon:"book",
-          to:"/appointed_course"
+          label: " A.Courses",
+          icon: "book",
+          to: "/a_course"
+        },
+        {
+          label: "Lecturer",
+          icon: "people",
+          to: "/lecturer"
+        },
+        {
+          label: "Course Delegates",
+          icon: "people",
+          to: "/course-delegate"
+        },
+        {
+          label: "Schedule",
+          icon: "schedule",
+          to: "/course-schedule"
+        },
+        {
+          label: "Course Outline",
+          icon: "description",
+          to: "/course-outline"
+        },
+        {
+          label: "Record Coverage",
+          icon: "create",
+          to: "/record-coverage"
+        },
+        {
+          label: "Coverage Statistic",
+          icon: "analytics",
+          to: "/coverage-statistic"
         },
 
         {
-          label:"Course Delegates",
-          icon:"people",
-          to:"/course-delegate"
+          label: "Profile",
+          icon: "portrait",
+          to: "/profile"
         },
         {
-          label:"Course Outline",
-          icon:"people",
-          to:"/course-outline"
-        },
-        {
-          label:"Schedule",
-          icon:"schedule",
-          to:"/course-schedule"
-        },
-        {
-          label:"Record Coverage",
-          icon:"analytics",
-          to:"/record-coverage"
-        },
-        {
-          label:"Coverage Statistic",
-          icon:"analytics",
-          to:"/coverage-statistic"
-        },
-
-        {
-          label:"Profile",
-          icon:"about",
-          to:"/profile"
-        },
-        {
-          label:"Logout",
-          icon:"about",
-          to:"/logout"
+          label: "Logout",
+          icon: "exit_to_app",
+          to: "/logout"
         }
       ]
-
-    }
+    };
   },
 
   mounted() {
-     this.$store
-       .dispatch("getCourses")
-       .then(res => {
-         // console.log(res)
-       })
-       .catch(err => {});
-      
+    this.$store
+      .dispatch("getCourses")
+      .then(res => {
+        // console.log(res)
+      })
+      .catch(err => {});
+    this.$store
+      .dispatch("getActivities")
+      .then(res => {})
+      .catch(err => {});
   }
 
-
-   
   // mounted() {
   //   this.$store.dispatch("getActivities").then(res => {
 
   //   }).catch(err => {})
   // }
-}
+};
 </script>
 <style scoped></style>
