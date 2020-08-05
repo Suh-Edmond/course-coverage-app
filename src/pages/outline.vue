@@ -209,7 +209,7 @@ export default {
         SubmitData()
         {
           this.$store.dispatch("addOutline", [this.outline_data , this.totalFormNumber]).then(res => {
-               // console.log(this.outline_data);
+               
           }).catch(err=>{})
         },
         Reset()

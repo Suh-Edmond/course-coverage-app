@@ -14,15 +14,7 @@
             </q-item>
             <q-item v-ripple>
               <q-item-section class="text-weight-medium">
-                <q-item-label>First Name</q-item-label>
-              </q-item-section>
-              <q-item-section class="text-indigo">
-                <q-item-label> Suh</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item v-ripple>
-              <q-item-section class="text-weight-medium">
-                <q-item-label>Last Name  </q-item-label>
+                <q-item-label>Name</q-item-label>
               </q-item-section>
               <q-item-section class="text-indigo">
                 <q-item-label> Suh</q-item-label>
@@ -31,14 +23,6 @@
             <q-item v-ripple>
               <q-item-section class="text-weight-medium">
                 <q-item-label>Matricule Number  </q-item-label>
-              </q-item-section>
-              <q-item-section class="text-indigo">
-                <q-item-label> Suh</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item v-ripple>
-              <q-item-section class="text-weight-medium">
-                <q-item-label>Gender  </q-item-label>
               </q-item-section>
               <q-item-section class="text-indigo">
                 <q-item-label> Suh</q-item-label>
@@ -158,6 +142,17 @@ export default {
       option1: ["Male", "Female"],
       
     };
+  },
+  mounted(){
+    this.$store.dispatch("getDetailsOfCurrentUser").then(res => {
+
+    })
+  },
+  computed: {
+    getUserDetails(){
+      cocnsole.log(this.$store.getters.getUserDetails);
+      return this.$store.getters.getUserDetails
+    }
   }
 };
 </script>

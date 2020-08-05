@@ -65,48 +65,43 @@ export default {
         {
           label: "Courses",
           icon: "book",
-          to: "/course"
+          to: "/home/course"
         },
         {
           label: " A.Courses",
           icon: "book",
-          to: "/a_course"
-        },
-        {
-          label: "Lecturer",
-          icon: "people",
-          to: "/lecturer"
+          to: "/home/a_course"
         },
         {
           label: "Course Delegates",
           icon: "people",
-          to: "/course-delegate"
+          to: "/home/course-delegate"
         },
         {
           label: "Schedule",
           icon: "schedule",
-          to: "/course-schedule"
+          to: "/home/course-schedule"
         },
         {
           label: "Course Outline",
           icon: "description",
-          to: "/course-outline"
+          to: "/home/course-outline"
         },
         {
           label: "Record Coverage",
           icon: "create",
-          to: "/record-coverage"
+          to: "/home/record-coverage"
         },
         {
           label: "Coverage Statistic",
           icon: "analytics",
-          to: "/coverage-statistic"
+          to: "/home/coverage-statistic"
         },
 
         {
           label: "Profile",
           icon: "portrait",
-          to: "/profile"
+          to: "/home/profile"
         },
         {
           label: "Logout",

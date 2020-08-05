@@ -10,7 +10,6 @@
             <q-select
               v-model="schedule.course_id"
               :options="getCourses"
-              emit-value
               label="Choose Course"
               :rules="[val => !!val || 'Field is required']"
             />

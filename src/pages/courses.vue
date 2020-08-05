@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="row flex flex-center " v-if="showForm">
+    <div  class="row flex flex-center"  v-if="showForm">
       <q-card class="my-card col-xs-12 q-my-xs q-mx-xs">
         <q-card-section class="bg-primary q-pa-sm">
           <div class="text-h6 text-center text-white">Create New Course</div>
@@ -46,7 +46,6 @@
                 class="full-width q-pa-xs text-center"
                 color="primary"
                 label="Add"
-                @click="addCourse()"
               />
             </div>
           </q-form>
@@ -92,65 +91,7 @@
         </template>
       </q-table>
     </div>
-
-    <q-dialog v-model="showItem">
-      <q-card class="my-card2 q-mb-lg">
-        <q-card-section class="bg-primary q-pa-lg">
-          <div class="text-h5 text-center text-white">Update Course</div>
-        </q-card-section>
-        <q-card-section>
-          <q-form class="q-gutter-md">
-            <q-input
-              v-model="course.course_code"
-              label="Course Code"
-              :rules="[val => !!val || 'Field is required']"
-            />
-            <q-input
-              v-model="course.title"
-              label="Title"
-              :rules="[val => !!val || 'Field is required']"
-            />
-            <q-input
-              type="number"
-              v-model="course.credit_value"
-              label="Credit Value"
-              :rules="[
-                val =>
-                  (val !== null && val !== '') || 'Please type a credit value',
-                val =>
-                  (val >= 2 && val <= 6) || 'Please type a valid credit value'
-              ]"
-            />
-            <q-select
-              v-model="course.model_type"
-              :options="course.option1"
-              label="Type"
-              :rules="[val => !!val || 'Field is required']"
-            />
-            <q-select
-              v-model="course.model_semester"
-              :options="course.option2"
-              label="Semester"
-              :rules="[val => !!val || 'Field is required']"
-            />
-          </q-form>
-        </q-card-section>
-
-        <q-card-actions class="q-pa-lg q-gutter-md row justify-between">
-          <div>
-            <q-btn
-              v-close-popup
-              color="primary"
-              label="update"
-              @click="showItem = !showItem"
-            />
-          </div>
-          <div>
-            <q-btn v-close-popup color="red" label="delete" />
-          </div>
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+     
   </q-page>
 </template>
 
@@ -200,16 +141,20 @@ export default {
   },
    
   methods: {
-    submitForm() {
+    submitForm(){
       //console.log(this.course);
       this.$store.dispatch("addCourse", this.course).then(res => {
         this.showForm = false;
-        this.course.course_code =null,
-        this.course.title=null,
-        this.course.credit_value=null,
-        this.course.semester=null,
-        this.course.type=null
+        this.Reset();
       });
+    },
+    Reset()
+    {
+        this.course.course_code = '',
+        this.course.title='',
+        this.course.credit_value='',
+        this.course.semester='',
+        this.course.type=''
     }
   },
 

@@ -96,15 +96,6 @@
                 size="md"
                 @click="RecordCourseWork()"
               />
-               
-              <q-btn
-                
-                class="q-pa-xs text-center q-ml-lg"
-                color="red"
-                label="RESET"
-                size="md"
-                @click="Reset()"
-              />
             </div>
           </q-form>
         </q-card-section>
@@ -171,7 +162,7 @@ export default {
       var courseLecturer = [];
        this.$store.getters.getCourseLecturers.forEach(lecturer => {
           courseLecturer.push({
-          label:lecturer.first_name +" "+ lecturer.last_name,
+          label:lecturer.user_name,
          value:lecturer.id
         });
        });
@@ -214,7 +205,7 @@ export default {
     RecordCourseWork()
     {
       this.$store.dispatch("RecordCourseWork", this.coverage).then (res => {
-         //console.log(this.coverage)
+         this.Reset();
       }).catch(err=>{})
     },
 //reset fields

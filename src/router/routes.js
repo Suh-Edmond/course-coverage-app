@@ -2,55 +2,64 @@
 const routes = [
   {
     path:'/',
+    component: () => import("layouts/Layout1.vue"),
+      children : [
+        {
+          path:'/',
+          redirect:'/login',
+        },
+        {
+          path:'/login',
+          component: () =>import('pages/login.vue')
+        },
+        {
+          path:'/choose_account',
+          component: () => import('pages/choose_account.vue') 
+        },
+        { 
+          path: '/register', 
+          component: () => import('pages/register.vue') 
+        },
+     ]
+    },
+    {
+    path:'/home',
     component: () => import("layouts/Layout2.vue"),
-    //  path: '/',
-    //  component: () => import('layouts/Layout1.vue'),
-    //  children : [
-    //    {
-    //      path:'/login',
-    //      component: () =>import('pages/login.vue')
-    //    }
-    //  ]
       children: [
        { 
          path: '', 
          component: () => import('pages/Index.vue') 
        },
        { 
-         path: '/course', 
+         path: '/home/course', 
          component: () => import('pages/courses.vue') 
        },
        { 
-        path: '/a_course', 
+        path: '/home/a_course', 
         component: () => import('pages/assign.vue') 
       },
        { 
-         path: '/course-delegate', 
+         path: '/home/course-delegate', 
          component: () => import('pages/course-delegate.vue') 
        },
        { 
-         path: '/lecturer', 
-         component: () => import('pages/lecturer.vue') 
-       },
-    
-       { 
-         path: '/course-schedule', 
+         path: '/home/course-schedule', 
          component: () => import('pages/schedule.vue') 
        },
        { 
-         path: '/course-outline', 
+         path: '/home/course-outline', 
          component: () => import('pages/outline.vue') 
        },
        {
-         path:'/record-coverage',
+         path:'/home/record-coverage',
          component : ()=>import('pages/record-coverage.vue')
        },
        { 
-         path: '/profile', 
+         path: '/home/profile', 
          component: () => import('pages/profile.vue') 
        },
        { 
-         path: '/coverage-statistic', 
+         path: '/home/coverage-statistic', 
          component: () => import('pages/coverage-statistics.vue') 
        },
       
