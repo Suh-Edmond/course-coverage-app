@@ -60,7 +60,7 @@ export default {
         {
           label: "Home",
           icon: "home",
-          to: "/"
+          to: "/home"
         },
         {
           label: "Courses",
@@ -86,6 +86,11 @@ export default {
           label: "Course Outline",
           icon: "description",
           to: "/home/course-outline"
+        },
+        {
+          label: "View Course Outline",
+          icon: "description",
+          to: "/home/view-course-outline"
         },
         {
           label: "Record Coverage",
@@ -125,11 +130,7 @@ export default {
       .catch(err => {});
   }
 
-  // mounted() {
-  //   this.$store.dispatch("getActivities").then(res => {
-
-  //   }).catch(err => {})
-  // }
+ 
 };
 </script>
 <style scoped></style>

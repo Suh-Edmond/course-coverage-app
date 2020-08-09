@@ -46,24 +46,8 @@
             </q-item-label>
           </q-item-section>
         </q-card-section>
-        <!-- <q-card-section>
-          <q-dialog v-model="alert">
-            <q-card>
-              <q-card-section>
-                <div class="text-h6">Alert</div>
-              </q-card-section>
-              <q-card-section class="q-pt-none text-red-10" >
-               Passowrd or Matricule Number id incorrect
-              </q-card-section>
-
-              <q-card-actions align="right">
-                <q-btn flat label="OK" color="primary" v-close-popup />
-              </q-card-actions>
-            </q-card>
-          </q-dialog>
-        </q-card-section> -->
         <q-card-section class="q-my-md q-mx-lg">
-          <q-form>
+          <q-form @submit="SubmitData">
             <q-input
               outlined
               :dense="dense"
@@ -74,8 +58,9 @@
             <q-input
               v-model="password"
               outlined
-              :type="isPwd ? 'password' : 'text'"
+              :type="isPwd ? 'password' : ''"
               label="Password"
+               :rules="[val => !!val || 'Field is required']"
             >
               <template v-slot:append>
                 <q-icon
@@ -90,7 +75,8 @@
                 class="full-width q-pa-xs text-center"
                 color="primary"
                 label="Login"
-                @click="SubmitData"
+                type="submit"
+                
               />
             </div>
             <div class="row q-my-md">
@@ -120,8 +106,7 @@
 </template>
 
 <script>
-// //type="a"
-//                    href="http://localhost:8080/#/home"
+ 
 export default {
   data() {
     return {
@@ -131,7 +116,7 @@ export default {
       matricule_number: null,
       dense: false,
       isPwd: true,
-      alert:false,
+      
     };
   },
   methods: {
@@ -149,7 +134,7 @@ export default {
           this.$router.push("/home");
         })
         .catch(err => {{ 
-          this.alert =true
+          
          }});
     }
   }

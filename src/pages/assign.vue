@@ -4,7 +4,7 @@
       <div class="col-4">
         <q-select
           v-model="course_id"
-          :options="addCourse"
+          :options="Courses"
           label="Select Course"
           :rules="[val => !!val || 'Field is required']"
         />
@@ -16,7 +16,7 @@
     <div>
       <q-table
         class="q-pt-lg q-my-lg q-mx-xs col-xs-12"
-        :data="getCourseOfLecturer"
+        :data="getSelectedCourse"
         :columns="columns"
         row-key="id"
         :filter="filter"
@@ -97,27 +97,28 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getSelectedCourse").then(res => {
-        // console.log(this.course_id, this.lecturer_id);
+        
        });
   },
   methods: {
     SubmitData() {
-      //console.log(this.course);
+      
       this.$store.dispatch("selectCourse", this.course_id).then(res => {
-        //console.log(this.course_id, this.lecturer_id);
+           
       });
        this.$store.dispatch("getSelectedCourse").then(res => {
-        // console.log(this.course_id, this.lecturer_id);
+        
        });
     }
   },
 
   computed: {
-       getCourseOfLecturer() {
-       // console.log(this.$store.getters.getCourseOfLecturer);
-        return this.$store.getters.getCourseOfLecturer
+    //getting all courses for a lecturer
+      getSelectedCourse() {
+        return this.$store.getters.getSelectedCourse
        },
-    addCourse() {
+       //list of all courses in  system
+    Courses() {
       var courses = [];
       this.$store.getters.getCourse.forEach(course => {
         courses.push({

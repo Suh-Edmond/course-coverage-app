@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div  class="row flex flex-center"  v-if="showForm">
+    <div  class="row flex flex-center"  v-if="showTable">
       <q-card class="my-card col-xs-12 q-my-xs q-mx-xs">
         <q-card-section class="bg-primary q-pa-sm">
           <div class="text-h6 text-center text-white">Create New Course</div>
@@ -52,7 +52,7 @@
         </q-card-section>
       </q-card>
     </div>
-    <div v-if="!showForm">
+    <div v-if="!showTable">
       <q-table
         class="q-pt-lg q-my-lg q-mx-xs col-xs-12"
         :data="getCourse"
@@ -84,7 +84,7 @@
             padding="0.5rem 2.2rem"
             dense
             :class="$q.screen.xs? 'full-width': ''"
-            @click="showForm = !showForm"
+            @click="showTable = !showTable"
           >
             
           </q-btn>
@@ -103,8 +103,7 @@ export default {
   namespaced: true,
   data() {
     return {
-      showForm: false,
-      showItem: false,
+      showTable: false,
       filter: null,
       option1: ["Major", "Elective"],
       option2: ["First Semester", "Second Semester"],
@@ -144,23 +143,35 @@ export default {
     submitForm(){
       //console.log(this.course);
       this.$store.dispatch("addCourse", this.course).then(res => {
-        this.showForm = false;
-        this.Reset();
-      });
+        this.$q.notify({
+           message: 'Course was Successfully Created',
+           status: '201',
+           timeout: Math.random() * 5000 + 3000,
+           color:"positive",
+           position:"top-right"
+        })
+         this.showTable = false;
+         this.course.course_code =null
+         this.course.credit_value =null
+         this.course.type =null;
+         this.course.semester=null
+         this.course.title =null
+      }).catch(err=> {
+        this.$q.notify({
+           message: 'Error! Course was not Created',
+           status: '422',
+          timeout: Math.random() * 5000 + 3000,
+          color:"negative",
+           position:"top-right"
+        })
+      })
     },
-    Reset()
-    {
-        this.course.course_code = '',
-        this.course.title='',
-        this.course.credit_value='',
-        this.course.semester='',
-        this.course.type=''
-    }
+
   },
 
   computed: {
     getCourse() {
-      //console.log(this.$store.getters.getCourse);
+      console.log(this.$store.getters.getCourse);
       return this.$store.getters.getCourse;
     }
   }

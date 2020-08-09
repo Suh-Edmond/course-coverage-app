@@ -50,6 +50,10 @@ const routes = [
          path: '/home/course-outline', 
          component: () => import('pages/outline.vue') 
        },
+       { 
+        path: '/home/view-course-outline', 
+        component: () => import('pages/view_outline.vue') 
+      },
        {
          path:'/home/record-coverage',
          component : ()=>import('pages/record-coverage.vue')

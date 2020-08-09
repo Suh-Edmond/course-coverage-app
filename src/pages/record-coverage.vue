@@ -42,7 +42,7 @@
           </div>
         </q-card-section>
         <q-card-section>
-          <q-form class="q-gutter-md">
+          <q-form class="q-gutter-md" @submit="RecordCourseWork">
             <q-input
               type="number"
               v-model="coverage.week_number"
@@ -94,7 +94,15 @@
                 color="primary"
                 label="Record Work"
                 size="md"
-                @click="RecordCourseWork()"
+               
+              />
+              <q-btn
+                type="reset"
+                class="q-pa-xs text-center q-mr-lg"
+                color="secondary"
+                label="Reset"
+                size="md"
+                @click="Reset()"
               />
             </div>
           </q-form>
@@ -205,8 +213,27 @@ export default {
     RecordCourseWork()
     {
       this.$store.dispatch("RecordCourseWork", this.coverage).then (res => {
-         this.Reset();
-      }).catch(err=>{})
+      //   this.$q.loading.show()
+      //    this.timer = setTimeout(() => {
+      //   this.$q.loading.hide()
+      //   this.timer = void 0
+      //  }, 6000)
+       this.$q.notify({
+           message: 'Course Work was Successfully Recorded',
+           status: '201',
+           timeout: Math.random() * 5000 + 3000,
+           color:"positive",
+           position:"top-right"
+        })
+      }).catch(err=>{
+        this.$q.notify({
+           message: 'Error! Course Work was not Successfully Recorded',
+           status: '422',
+          timeout: Math.random() * 5000 + 3000,
+          color:"negative",
+           position:"top-right"
+        })
+      })
     },
 //reset fields
     Reset(){

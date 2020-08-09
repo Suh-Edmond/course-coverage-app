@@ -15,10 +15,10 @@ export const getActivities = (state) => {
 export const getCourseSchedules = (state) => {
     return state.course_schedule
 }
- //get course of a lecturer
+ //get courses of a lecturer
 
- export const getCourseOfLecturer = (state) => {
-    return state.taughtCourse
+ export const getSelectedCourse = (state) => {
+    return state.selectedCourse
 }
 
 //get course Lecturers
@@ -50,11 +50,14 @@ export const getTotalTopicsCovered = (state) => {
  export const getCourseDelegate = (state) => {
      return state.courseDelegate
  }
-
+//get num of course delegates for all courses of a lecturer
+export const getNumberOfCourseDelegate = (state) => {
+    return state.NumOfCourseDelegate
+}
  //get number of course per lecturer
- export const getNumberOfCoursePerLecturer = (state) => {
-     return state.courseNumberPerLecturer
- }
+   export const getNumberOfCoursePerLecturer = (state) => {
+       return state.courseNumberPerLecturer
+   }
 
  //get user type
  export const getUserType = (state) => {
@@ -64,10 +67,15 @@ export const getTotalTopicsCovered = (state) => {
 export const getUserDetails = (state) => {
     return state.userDetails
 }
-// //get course delegate
-// export const getCourseDelegate = (state) => {
-//     return state.courseDelegate
-// }
+// //get course outline
+ export const getCourseOutline = (state) => {
+     return state.outline
+ }
+
+ //get attend courses
+  export const getAttendCourses = (state) => {
+       return state.attendCourse
+  }
 
 
 

@@ -9,13 +9,17 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@babel/runtime-corejs2": "^7.11.2",
     "@quasar/extras": "^1.0.0",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
-    "quasar": "^1.0.0"
+    "quasar": "^1.0.0",
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
-    "@quasar/app": "^2.0.0"
+    "@babel/plugin-transform-runtime": "^7.11.0",
+    "@quasar/app": "^2.0.0",
+    "@vue/babel-preset-app": "^4.4.6"
   },
   "browserslist": [
     "last 10 Chrome versions",

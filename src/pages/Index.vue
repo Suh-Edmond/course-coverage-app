@@ -25,7 +25,7 @@
             <q-card-section class="text-white text-h5">
             <q-item-section> 
               <q-item-label>
-                Total:
+                Total:{{ getNumberOfCourseDelegate }}
               </q-item-label>
             </q-item-section>
           </q-card-section>
@@ -44,12 +44,19 @@ export default {
      this.$store.dispatch("getNumberOfCoursePerLecturer").then(res => {
 
      })
+     this.$store.dispatch("getNumberOfCourseDelegates").then(res => {
+
+     })
   },
   computed:{
     getNumberOfCoursePerLecturer()
     {
       return this.$store.getters.getNumberOfCoursePerLecturer;
-    }
+    },
+    getNumberOfCourseDelegate()
+    { 
+      return this.$store.getters.getNumberOfCourseDelegate;
+    } 
   }
 }
 </script>

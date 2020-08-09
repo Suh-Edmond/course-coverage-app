@@ -133,12 +133,12 @@ export default {
     };
   },
    mounted() {
-    this.$store
-      .dispatch("getCourseSchedules")
-      .then(res => {
-         console.log('res')
-      })
-      .catch(err => {});
+      this.$store
+        .dispatch("getCourseSchedules")
+        .then(res => {
+           console.log('res')
+        })
+        .catch(err => {});
   
    
   },
@@ -163,12 +163,27 @@ export default {
     SubmitForm() {
       //console.log(this.schedule);
       this.$store.dispatch("addCourseSchedule", this.schedule).then(res => {
-        (this.showForm = false),
-          (this.schedule.course_id = null),
-          (this.schedule.day = null),
-          (this.schedule.period = null),
-          (this.schedule.venue = null);
-      });
+        this.$q.notify({
+           message: 'Course Schedule was Successfully created',
+           status: '201',
+           timeout: Math.random() * 5000 + 3000,
+           color:"positive",
+           position:"top-right"
+        })
+        this.showForm =false
+         this.schedule.course_id =null
+           this.schedule.day =null
+           this.schedule.period =null
+           this.schedule.venue=null
+      }).catch(err=>{
+          this.$q.notify({
+          message: 'Error! Course Schedule was not Successfully created',
+          status: '422',
+          timeout: Math.random() * 5000 + 3000,
+          color:"negative",
+          position:"top-right"
+        })
+      })
     }
   },
   

@@ -10,11 +10,13 @@
         <q-card-section>
           <q-form @submit="submitForm">
             <q-input
+              type="text"
               v-model="user.user_name"
               label="Name"
               :rules="[val => !!val || 'Field is required']"
             />
             <q-input
+             type="text"
               v-model="user.matricule_number"
               label="Matricule Number"
               :rules="[val => !!val || 'Field is required']"
@@ -26,6 +28,7 @@
               :rules="[val => !!val || 'Field is required']"
             />
             <q-input
+               
               v-model="user.telephone"
               label="Telephone"
               :rules="[val => !!val || 'Field is required']"
@@ -112,13 +115,23 @@ export default {
     submitForm() {
       this.userType = this.$store.getters.getUserType;
       this.$store.dispatch("addUser", [this.user, this.userType]).then(res => {
-        //return "http://localhost:8080/#/login"
-        this.user.user_name = null;
-        this.user.matricule_number = null;
-        this.user.email = null;
-        this.user.telephone = null;
-        this.user.password = null;
-      });
+        this.$q.notify({
+           message: 'Account was Successfully Created',
+           status: '201',
+           timeout: Math.random() * 5000 + 3000,
+           color:"positive",
+           position:"top-right"
+        })
+        this.$router.push("/login");
+      }).catch(err => {
+          this.$q.notify({
+           message: 'Error! Account was not Created',
+           status: '422',
+          timeout: Math.random() * 5000 + 3000,
+          color:"negative",
+           position:"top-right"
+        })
+      })
     }
   }
 };

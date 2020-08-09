@@ -73,13 +73,8 @@
         <q-card-section>
           <q-form class="q-gutter-md">
             <q-input
-              v-model="user.first_name"
-              label="First Name"
-              :rules="[val => !!val || 'Field is required']"
-            />
-            <q-input
-              v-model="user.last_name"
-              label="Last Name"
+              v-model="user.user_name"
+              label="Name"
               :rules="[val => !!val || 'Field is required']"
             />
             <q-input
@@ -102,12 +97,6 @@
               type="password"
               v-model="user.password"
               label="Password"
-              :rules="[val => !!val || 'Field is required']"
-            />
-            <q-select
-              v-model="user.gender"
-              :options="option1"
-              label="Gender"
               :rules="[val => !!val || 'Field is required']"
             />
             <div class="q-mt-md  q-gutter-md q-mb-lg">
@@ -139,7 +128,7 @@ export default {
         password: "",
         gender:""
       },
-      option1: ["Male", "Female"],
+ 
       
     };
   },
@@ -150,7 +139,7 @@ export default {
   },
   computed: {
     getUserDetails(){
-      cocnsole.log(this.$store.getters.getUserDetails);
+      console.log(this.$store.getters.getUserDetails);
       return this.$store.getters.getUserDetails
     }
   }

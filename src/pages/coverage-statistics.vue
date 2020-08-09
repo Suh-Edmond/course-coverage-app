@@ -70,6 +70,7 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
+      label:'',
       showForm: false,
       course_id: "",
       year:"",
@@ -100,10 +101,15 @@ export default {
       ]
     };
   },
+  mounted() {
+    this.$store.dispatch("getSelectedCourse").then(res => {
+        
+       });
+  },
   computed: {
     getCourses() {
       var courses = [];
-      this.$store.getters.getCourseOfLecturer.forEach(course => {
+      this.$store.getters.getSelectedCourse.forEach(course => {
         courses.push({
           label: course.course_code + " " + course.title,
           value: course.id
@@ -128,10 +134,11 @@ export default {
         return this.$store.getters.getTotalTopicNumber;
       },
      computePercentage() {
-       this.coursePercentage = ((this.numberOfCoveredTopics /this.courseTopicNumber) * 100).toFixed(2);
-      //  console.log(this.numberOfCoveredTopics)
-      //  console.log(this.courseTopicNumber)
-      //  console.log(this.coursePercentage)
+      if(this.numberOfCoveredTopics == 0){
+        this.coursePercentage = 0.0
+      }else{
+         this.coursePercentage = ((this.numberOfCoveredTopics /this.courseTopicNumber) * 100).toFixed(2);
+      }
        return this.coursePercentage;
     }
   },
