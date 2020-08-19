@@ -1,5 +1,8 @@
 import state from "./state"
 
+export function isAuthenticated(state) {
+    return state.app.isAuthenticated
+}
  //get total courses
  export const getCourse = (state) => {
      return state.courses
@@ -13,7 +16,7 @@ export const getActivities = (state) => {
 
 //get course schedules
 export const getCourseSchedules = (state) => {
-    return state.course_schedule
+    return state.courseSchedule
 }
  //get courses of a lecturer
 
@@ -58,7 +61,9 @@ export const getNumberOfCourseDelegate = (state) => {
    export const getNumberOfCoursePerLecturer = (state) => {
        return state.courseNumberPerLecturer
    }
-
+export const getnumb = (state) =>{
+    return state.numb
+}
  //get user type
  export const getUserType = (state) => {
      return state.userType
@@ -78,9 +83,17 @@ export const getUserDetails = (state) => {
   }
 
 
+// export const getAllCTopics = (state) => {
+//     return state.topics
+// }
 
+export const getAccessId = (state) => {
+    return state.accessId
+}
 
-
+export const getType = (state) => {
+    return state.Type
+}
 
 
 

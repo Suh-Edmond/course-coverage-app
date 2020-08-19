@@ -1,33 +1,48 @@
 
 const routes = [
   {
-    path:'/',
+    path:'/auth',
+
     component: () => import("layouts/Layout1.vue"),
       children : [
         {
-          path:'/',
-          redirect:'/login',
-        },
-        {
           path:'/login',
-          component: () =>import('pages/login.vue')
+          component: () =>import('pages/login.vue'),
+          meta: {
+            allowAnonymous: true
+          }
         },
         {
           path:'/choose_account',
-          component: () => import('pages/choose_account.vue') 
+          component: () => import('pages/choose_account.vue') ,
+          meta: {
+            allowAnonymous: true
+          }
         },
         { 
-          path: '/register', 
-          component: () => import('pages/register.vue') 
+          path: '/register_lecturers', 
+          component: () => import('pages/register.vue'),
+          meta: {
+            allowAnonymous: true
+          }
+        },
+        { 
+          path: '/register_course_delegates', 
+          component: () => import('pages/register_course_del.vue'), 
+          meta: {
+            allowAnonymous: true
+          }
         },
      ]
     },
+    
     {
-    path:'/home',
+    path:'/',
     component: () => import("layouts/Layout2.vue"),
       children: [
-       { 
-         path: '', 
+       {
+         path: '/home', 
+        // redirect:'/home',
          component: () => import('pages/Index.vue') 
        },
        { 
@@ -35,8 +50,12 @@ const routes = [
          component: () => import('pages/courses.vue') 
        },
        { 
-        path: '/home/a_course', 
+        path: '/home/lecture/courses', 
         component: () => import('pages/assign.vue') 
+      },
+      {
+        path:'/home/registration_code',
+        component: () => import('pages/registration_code.vue') 
       },
        { 
          path: '/home/course-delegate', 

@@ -1,38 +1,40 @@
 <template>
   <q-page>
-    <div class="row flex flex-center q-mt-lg">
-      <div class="text-h5 text-weight-bold">
-        Course Outline
-      </div>
-    </div>
-    <div class="row flex flex-center q-gutter-md q-mt-lg">
-      <div class="col-1 col-xs-12 col-md-1 col-xl-1"></div>
-      <div class="col-3 col-xs-12 col-md-3 col-xl-3">
-        <q-select
-          :options="year_options"
-          v-model="outline.year"
-          label="Choose year "
-          :rules="[val => !!val || 'Field is required']"
-        />
-      </div>
-      <div class="col-4 col-xs-12 col-md-4 col-xl-4">
-        <q-select
-          :options="Courses"
-          v-model="outline.course_id"
-          label="Choose Course "
-          :rules="[val => !!val || 'Field is required']"
-        />
-      </div>
-      <div class="col-3 col-xs-12 col-md-3 col-xl-3 ">
-        <q-btn color="primary" label="View outline" @click="displayOutline" />
-      </div>
-      <div class="col-1 col-xs-12 col-md-1 col-xl-1"></div>
-    </div>
+ 
+        <div class="row flex flex-center text-center q-mt-md">
+          <div class="text-h5 text-weight-bold">
+            Course Outline
+          </div>
+        </div>
+        <div class="row flex flex-center q-gutter-md">
+          <div class="col-1 col-xs-10 col-md-1 col-xl-1"></div>
+          <div class="col-3 col-xs-10 col-md-3 col-xl-3">
+            <q-select
+              :options="year_options"
+              v-model="outline.year"
+              label="Choose year "
+              :rules="[val => !!val || 'Field is required']"
+            />
+          </div>
+          <div class="col-4 col-xs-10 col-md-4 col-xl-4">
+            <q-select
+              :options="Courses"
+              v-model="outline.course_id"
+              label="Choose Course "
+              :rules="[val => !!val || 'Field is required']"
+            />
+          </div>
+          <div class="col-3 col-xs-10 col-md-3 col-xl-3 ">
+            <q-btn color="primary" label="View outline" @click="displayOutline" />
+          </div>
+          <div class="col-1 col-xs-12 col-md-1 col-xl-1"></div>
+        </div>
+
     <div v-if="showTable" class="row">
       <div class="col-1 col-xs-12 col-md-1 col-xl-1"></div>
       <div class="col-10 col-xs-12 col-md-10 col-xl-10">
             <q-table
-        class="q-pt-lg q-my-lg q-mx-xs col-xs-12"
+        class="q-pt-md q-my-lg q-mx-xs"
         :data="getOutline"
         :columns="columns"
         row-key="name"
@@ -40,14 +42,14 @@
       >
         <template v-slot:top-left>
           <div class="text-h5 text-weight-meduim">
-             Course Outline:  {{ " " + outline.course_id.label }}
+             Course Outline:  {{ " " + outline.course_id.label +"  "+ outline.year}}
           </div>
         </template>
         <template v-slot:top-right>
           <q-input
             outlined
             dense
-            :class="$q.screen.xs? 'text-h6-sm q-mr-lg q-mb-lg q-mt-lg full-width': 'text-h6-sm q-mr-lg'  "
+            :class="$q.screen.xs? 'text-h6-sm q-mr-md q-mb-lg q-mt-lg full-width ': 'text-h6-sm q-mr-lg'  "
             v-model="filter"
             placeholder="Search"
           >
@@ -95,7 +97,7 @@ export default {
   computed: {
         Courses() {
           var courses = [];
-          this.$store.getters.getCourse.forEach(course => {
+          this.$store.getters.getSelectedCourse.forEach(course => {
             courses.push({
               label: course.course_code + " " + course.title,
               value: course.id

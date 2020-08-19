@@ -1,6 +1,13 @@
 <template>
-  <q-page>
-    <div class="flex flex-center">
+  <q-page  class="flex flex-center">
+    <q-ajax-bar
+      ref="bar"
+      position="top"
+      color="positive"
+      size="10px"
+      skip-hijack
+    />
+    <div>
       <q-card class="my-card">
         <q-card-section
           class="row text-primary text-h6 text-weight-bolder flex flex-center"
@@ -11,7 +18,7 @@
         </q-card-section>
         <q-card-section class="text-center">
           <div class="row">
-            <div class="col-5 q-pa-md">
+            <div class="col-5 col-md-5 col-xl-5 col-xs-12 q-pa-md">
               <img src="~assets/instructor.png" width="100" height="90" />
               <div class="text-h6 text-weight-medium q-mt-md">
                 <q-radio
@@ -22,8 +29,8 @@
                 />
               </div>
             </div>
-            <div class="col-2"></div>
-            <div class="col-5 q-pa-md">
+            <div class="col-2 q-my-sm col-md-2 col-xl-2"></div>
+            <div class="col-5 col-md-5 col-xl-5 col-xs-12 q-pa-md">
               <img src="~assets/student.png" width="100" height="90" />
               <div class="text-h6 text-weight-medium q-mt-md">
                 <q-radio
@@ -46,59 +53,60 @@
             </q-item-label>
           </q-item-section>
         </q-card-section>
-        <q-card-section class="q-my-md q-mx-lg">
-          <q-form @submit="SubmitData">
-            <q-input
-              outlined
-              :dense="dense"
-              v-model="matricule_number"
-              label="Matricule Number"
-              :rules="[val => !!val || 'Field is required']"
-            />
-            <q-input
-              v-model="password"
-              outlined
-              :type="isPwd ? 'password' : ''"
-              label="Password"
-               :rules="[val => !!val || 'Field is required']"
-            >
-              <template v-slot:append>
-                <q-icon
-                  :name="isPwd ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isPwd = !isPwd"
+        <q-card-section class="q-my-sm q-mx-xs">
+            <q-form @submit="SubmitData">
+              <div>
+                <q-input
+                  outlined
+                  :dense="dense"
+                  v-model="email"
+                  label="Email"
+                  :rules="[val => !!val || 'Field is required']"
                 />
-              </template>
-            </q-input>
-            <div class="q-mt-md">
-              <q-btn
-                class="full-width q-pa-xs text-center"
-                color="primary"
-                label="Login"
-                type="submit"
-                
-              />
-            </div>
-            <div class="row q-my-md">
-              <div class="col-6  text-h6">
-                <q-item-label
-                  >No Account?
-                  <a
-                    href="http://localhost:8080/#/choose_account"
-                    class="text-primary"
-                    >Signup</a
-                  ></q-item-label
-                >
               </div>
-              <div class="col-6 text-h6 ">
-                <q-item-label class="float-right">
-                  <a href="#" class="text-primary"
-                    >Forgot Password?</a
-                  ></q-item-label
-                >
+              <q-input
+                v-model="password"
+                outlined
+                :type="isPwd ? 'password' : ''"
+                label="Password"
+                :rules="[val => !!val || 'Field is required']"
+              >
+                <template v-slot:append>
+                  <q-icon
+                    :name="isPwd ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isPwd = !isPwd"
+                  />
+                </template>
+              </q-input>
+              <div class="q-mt-sm col-xs-8">
+                <q-btn
+                  class="full-width q-pa-xs text-center"
+                  color="primary"
+                  label="Login"
+                  type="submit"
+                  @click="trigger"
+                />
               </div>
-            </div>
-          </q-form>
+              <div  class="flex flex-center q-mt-lg col-xs-6">
+                  <q-btn
+                  class="full-width q-pa-xs text-center"
+                  color="primary"
+                  label=" Create Account"
+                  type="submit"
+                 to="choose_account"
+                  @click="trigger"
+                />
+                 
+                <!-- <div class="col-6 col-md-6 col-xs-6 text-h6 ">
+                  <q-item-label class="float-right">
+                    <a href="#"  @click="trigger" class="text-primary"
+                      >Forgot Password?</a
+                    ></q-item-label
+                  >
+                </div> -->
+              </div>
+            </q-form>
         </q-card-section>
       </q-card>
     </div>
@@ -106,17 +114,15 @@
 </template>
 
 <script>
- 
 export default {
   data() {
     return {
       user: "",
       type: "",
       password: null,
-      matricule_number: null,
+      email: null,
       dense: false,
-      isPwd: true,
-      
+      isPwd: true
     };
   },
   methods: {
@@ -129,14 +135,44 @@ export default {
         this.type = "";
       }
       this.$store
-        .dispatch("Login", [this.type, this.matricule_number, this.password])
+        .dispatch("logInUser", {type: this.type, email: this.email, password: this.password})
         .then(res => {
+       this.$store.dispatch("SAVETYPE", this.type).then(res => {
+
+       })
+       this.$q.notify({
+          message: 'Login was Successful',
+          status: '422',
+          timeout: Math.random() * 5000 + 3000,
+          color:"positive",
+          position:"top-right"
+        })
           this.$router.push("/home");
         })
-        .catch(err => {{ 
-          
-         }});
-    }
+        .catch(err => {
+          {
+               this.$q.notify({
+          message: 'Error! Login Failed',
+          status: '422',
+          timeout: Math.random() * 5000 + 3000,
+          color:"negative",
+          position:"top-right"
+        })
+          }
+        });
+    },
+    trigger () {
+      const bar = this.$refs.bar
+
+      bar.start()
+
+      this.timer = setTimeout(() => {
+        if (this.$refs.bar) {
+          this.$refs.bar.stop()
+        }
+      }, Math.random() * 3000 + 1000)
+    },
+      
   }
 };
 </script>

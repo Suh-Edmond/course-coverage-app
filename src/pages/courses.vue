@@ -1,8 +1,15 @@
 <template>
   <q-page>
+     <q-ajax-bar
+      ref="bar"
+      position="top"
+      color="positve"
+      size="10px"
+      skip-hijack
+    />
     <div  class="row flex flex-center"  v-if="showTable">
       <q-card class="my-card col-xs-12 q-my-xs q-mx-xs">
-        <q-card-section class="bg-primary q-pa-sm">
+        <q-card-section class="bg-primary q-pa-md">
           <div class="text-h6 text-center text-white">Create New Course</div>
         </q-card-section>
         <q-card-section>
@@ -46,6 +53,7 @@
                 class="full-width q-pa-xs text-center"
                 color="primary"
                 label="Add"
+                
               />
             </div>
           </q-form>
@@ -138,10 +146,18 @@ export default {
       ]
     };
   },
+  mounted(){
+    
+       this.$store.dispatch("getAttendCourses").then(res => {
+        
+       })
+    
+  },
    
   methods: {
     submitForm(){
       //console.log(this.course);
+
       this.$store.dispatch("addCourse", this.course).then(res => {
         this.$q.notify({
            message: 'Course was Successfully Created',
@@ -150,6 +166,10 @@ export default {
            color:"positive",
            position:"top-right"
         })
+        
+       this.$store.dispatch("getAttendCourses").then(res => {
+        
+       })
          this.showTable = false;
          this.course.course_code =null
          this.course.credit_value =null
@@ -166,13 +186,23 @@ export default {
         })
       })
     },
+     trigger () {
+      const bar = this.$refs.bar
 
+      bar.start()
+
+      this.timer = setTimeout(() => {
+        if (this.$refs.bar) {
+          this.$refs.bar.stop()
+        }
+      }, Math.random() * 3000 + 1000)
+    }
   },
 
   computed: {
     getCourse() {
-      console.log(this.$store.getters.getCourse);
-      return this.$store.getters.getCourse;
+      console.log(this.$store.getters.getAttendCourses);
+      return this.$store.getters.getAttendCourses;
     }
   }
 };
@@ -180,7 +210,7 @@ export default {
 
 <style scoped>
 .my-card {
-  width: 500px;
+  width: 700px;
   
 }
 .my-card2 {

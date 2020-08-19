@@ -1,50 +1,59 @@
 <template>
-  <q-page class="q-ma-lg">
-    <div class="row flex flex-center q-mt-lg">
+  <q-page >
+    <q-ajax-bar
+      ref="bar"
+      position="top"
+      color="positive"
+      size="10px"
+      skip-hijack
+    />
+    <div class="row flex flex-center q-mt-md">
       <div class="  text-h5 text-weight-bold">
         Record Course Work
       </div>
     </div>
-    <div class="row flex flex-center q-gutter-md q-mt-lg q-mb-lg">
+    <div class="row flex flex-center q-gutter-sm q-mt-xs q-my-lg q-mx-auto">
       <div class="col-1"></div>
-      <div class="col-2">
+      <div class="col-2 col-xs-12 col-md-2 col-xl-2">
            <q-select
               :options="year_options"
-              v-model="year"
+              v-model="coverage.year"
               label="Choose year "
+              dense
               :rules="[val => !!val || 'Field is required']"
             />
       </div>
-      <div class="col-4">
+      <div class="col-4  col-xs-12 col-md-4 col-xl-4">
         <q-select
           :options="getCourses"
+          dense
           v-model="coverage.course_id"
           label="Choose Course "
           :rules="[val => !!val || 'Field is required']"
         />
       </div>
-      <div class="col-4">
+      <div class="col-4 col-xs-12 col-md-4 col-xl-4">
         <q-btn
           color="primary"
           label="display Coverage information"
           @click="SubmitFormData"
-         
         >
         </q-btn>
       </div>
       <div class="col-1"></div>
     </div>
-    <div class="row flex flex-center" v-if="showForm">
+    <div class="row q-mx-xs flex flex-center q-mt-lg" v-if="showForm">
       <q-card class="my-card q-mb-lg">
-        <q-card-section class="bg-primary q-pa-lg">
-          <div class="text-h5 text-center text-white">
-            Course Work for {{ this.coverage.course_id.label }}
+        <q-card-section class="bg-primary q-pa-md">
+          <div class="text-h6 text-center text-white">
+            Course Work: {{ this.coverage.course_id.label }}
           </div>
         </q-card-section>
         <q-card-section>
-          <q-form class="q-gutter-md" @submit="RecordCourseWork">
+          <q-form class="q-gutter-sm" @submit="RecordCourseWork">
             <q-input
               type="number"
+              dense
               v-model="coverage.week_number"
               label="Weekly"
               :rules="[
@@ -56,6 +65,7 @@
             />
             <q-select
               :options="option2"
+              dense
               v-model="coverage.day"
               label="Choose day"
               :rules="[val => !!val || 'Field is required']"
@@ -63,27 +73,29 @@
             <q-select
               :options="option3"
               v-model="coverage.period"
+              dense
               label="Choose period "
               :rules="[val => !!val || 'Field is required']"
             />
             <q-select
               :options="getCourseTopics"
               v-model="coverage.topic_id"
-               
+              dense
               label="Choose Topic "
               :rules="[val => !!val || 'Field is required']"
+              
             />
             <q-select
               :options="getActivities"
               v-model="coverage.activity_id"
-              
+              dense
               label="Choose Activity "
               :rules="[val => !!val || 'Field is required']"
             />
             <q-select
               :options="getCourseLecturers"
               v-model="coverage.lecturer_id"
-              
+              dense
               label="Choose Lecturer "
               :rules="[val => !!val || 'Field is required']"
             />
@@ -94,7 +106,7 @@
                 color="primary"
                 label="Record Work"
                 size="md"
-               
+                @click="trigger"
               />
               <q-btn
                 type="reset"
@@ -118,10 +130,11 @@ export default {
   data() {
     return {
       showForm: false,
-      year:null,
+      completed:false,
       coverage :{
             course_id: null,
             week_number: null,
+            year:null,
             day: null,
             period:null,
             topic_id:null,
@@ -147,7 +160,7 @@ export default {
   computed: {
     getCourses() {
       var courses = [];
-      this.$store.getters.getCourse.forEach(course => {
+      this.$store.getters.getAttendCourses.forEach(course => {
         courses.push({
           label: course.course_code + " " + course.title,
           value: course.id
@@ -205,7 +218,7 @@ export default {
 //get all course topics
     GetCourseTopics()
     {
-      this.$store.dispatch("getTopics", [this.coverage.course_id, this.year]).then(res => {
+      this.$store.dispatch("getTopics", [this.coverage.course_id, this.coverage.year]).then(res => {
         //console.log(this.year)
       })
     },
@@ -221,7 +234,7 @@ export default {
        this.$q.notify({
            message: 'Course Work was Successfully Recorded',
            status: '201',
-           timeout: Math.random() * 5000 + 3000,
+           timeout: Math.random() * 1000 + 3000,
            color:"positive",
            position:"top-right"
         })
@@ -243,6 +256,18 @@ export default {
       this.coverage.topic_id = null;
       this.coverage.activity_id = null;
       this.coverage.lecturer_id = null;
+      
+    },
+    trigger() {
+       const bar = this.$refs.bar
+
+      bar.start()
+
+      this.timer = setTimeout(() => {
+        if (this.$refs.bar) {
+          this.$refs.bar.stop()
+        }
+      }, Math.random() * 3000 + 1000)
     }
   },
    

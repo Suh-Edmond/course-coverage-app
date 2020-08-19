@@ -145,7 +145,7 @@ export default {
   computed: {
     getCourses() {
       var courses = [];
-      this.$store.getters.getCourse.forEach(course => {
+      this.$store.getters.getAttendCourses.forEach(course => {
         courses.push({
           label: course.course_code + " " + course.title,
           value: course.id
@@ -191,6 +191,6 @@ export default {
 </script>
 <style scoped>
 .my-card {
-  width: 500px;
+  width: 600px;
 }
 </style>

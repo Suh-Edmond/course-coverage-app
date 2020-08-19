@@ -1,12 +1,26 @@
 <template>
   <q-layout view="lHh lpR fFf">
     <q-header elevated class="bg-primary text-white">
-      <q-toolbar class="q-pa-md">
-        <q-btn dense flat round icon="menu" @click="left = !left" />
-
-        <q-toolbar-title class="text-center">
-          Welcome to Course Coverage 2020.
-        </q-toolbar-title>
+      <q-toolbar class="q-pa-sm">
+        
+             <div>
+            <q-btn dense flat round icon="menu" @click="left = !left" />
+        </div>
+        <q-space/>
+        <div >
+          <q-btn flat round dense icon="person" />
+           <q-menu>
+              <q-list style="min-width: 120px; height:60px;">
+                <q-item clickable v-close-popup >
+                    <q-item-section  @click="logout" class="text-center text-h5 text-weight-meduim">
+                      Logout
+                    </q-item-section>
+                </q-item>
+              </q-list>
+           </q-menu>
+        </div>
+        
+         
       </q-toolbar>
     </q-header>
 
@@ -22,25 +36,142 @@
       :width="270"
       content-class="bg-grey-11"
     >
-      <div class="heading q-ma-lg  text-h5 text-weight-bold flex flex-center">
+      <div class=" a2 q-ma-lg   flex flex-center">
         <img src="~assets/statistics_image2.png" width="80" height="60" />
-        {{ heading }}
+        <h5 class="heading text-h5 text-weight-bold" v-if="miniState == false">{{ heading }}</h5>
       </div>
-      <q-list v-for="nav in navs" :key="nav.id" class="text-light-blue-10">
+      <q-list class="text-light-blue-10">
+           
         <q-item
           clickable
           v-ripple
           exact
-          :to="nav.to"
+          to="/home"
           active-class="text-grey-10"
         >
           <q-item-section avatar>
-            <q-icon :name="nav.icon"></q-icon>
+            <q-icon name="home"></q-icon>
           </q-item-section>
-
-          <q-item-section>{{ nav.label }}</q-item-section>
+          <q-item-section>Home</q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          v-ripple
+          exact
+          to="/home/course"
+          active-class="text-grey-10"
+          v-if="getUserType == 'course_delegates'"
+        >
+          <q-item-section avatar>
+            <q-icon name="book"></q-icon>
+          </q-item-section>
+          <q-item-section>Course</q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          v-ripple
+          exact
+          to="/home/lecture/courses"
+          active-class="text-grey-10"
+          v-if="getUserType == 'lecturers'"
+        >
+          <q-item-section avatar>
+            <q-icon name="book"></q-icon>
+          </q-item-section>
+          <q-item-section>Course</q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          v-ripple
+          exact
+          to="/home/registration_code"
+          active-class="text-grey-10"
+          v-if="getUserType=='lecturers'"
+        >
+          <q-item-section avatar>
+            <q-icon name="lock"></q-icon>
+          </q-item-section>
+          <q-item-section>Registration Code</q-item-section>
+        </q-item>
+          <q-item
+          clickable
+          v-ripple
+          exact
+          to="/home/course-schedule"
+          active-class="text-grey-10"
+        >
+          <q-item-section avatar>
+            <q-icon name="schedule"></q-icon>
+          </q-item-section>
+          <q-item-section>Schedule</q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          v-ripple
+          exact
+          to="/home/course-outline"
+          active-class="text-grey-10"
+          v-if="getUserType == 'course_delegates'"
+        >
+          <q-item-section avatar>
+            <q-icon name="description"></q-icon>
+          </q-item-section>
+          <q-item-section>Course Outline</q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          v-ripple
+          exact
+          to="/home/view-course-outline"
+          active-class="text-grey-10"
+          v-if="getUserType == 'lecturers'"
+        >
+          <q-item-section avatar>
+            <q-icon name="description"></q-icon>
+          </q-item-section>
+          <q-item-section>View Course Outline</q-item-section>
+        </q-item>
+ 
+        <q-item
+          clickable
+          v-ripple
+          exact
+          to="/home/record-coverage"
+          active-class="text-grey-10"
+          v-if="getUserType == 'course_delegates'"
+        >
+          <q-item-section avatar>
+            <q-icon name="create"></q-icon>
+          </q-item-section>
+          <q-item-section>Record Coverage</q-item-section>
+        </q-item>
+         <q-item
+          clickable
+          v-ripple
+          exact
+          to="/home/coverage-statistic"
+          active-class="text-grey-10"
+          v-if="getUserType == 'lecturers'"
+        >
+          <q-item-section avatar>
+            <q-icon name="analytics"></q-icon>
+          </q-item-section>
+          <q-item-section>Coverage Statistic</q-item-section>
+        </q-item>
+         <q-item
+          clickable
+          v-ripple
+          exact
+          to="/home/profile"
+          active-class="text-grey-10"
+        >
+          <q-item-section avatar>
+            <q-icon name="portrait"></q-icon>
+          </q-item-section>
+          <q-item-section>Profile</q-item-section>
         </q-item>
       </q-list>
+       
     </q-drawer>
 
     <q-page-container>
@@ -73,9 +204,9 @@ export default {
           to: "/home/a_course"
         },
         {
-          label: "Course Delegates",
-          icon: "people",
-          to: "/home/course-delegate"
+          label: "Registration Code",
+          icon: "lock",
+          to: "/home/registration_code"
         },
         {
           label: "Schedule",
@@ -108,15 +239,10 @@ export default {
           icon: "portrait",
           to: "/home/profile"
         },
-        {
-          label: "Logout",
-          icon: "exit_to_app",
-          to: "/logout"
-        }
+         
       ]
     };
   },
-
   mounted() {
     this.$store
       .dispatch("getCourses")
@@ -128,9 +254,21 @@ export default {
       .dispatch("getActivities")
       .then(res => {})
       .catch(err => {});
-  }
+  },
 
- 
+  methods: {
+    logout() {
+      this.$store.dispatch("logOut").then(res => {
+           this.$router.push('auth/login')
+      })
+    }
+  },
+  computed: {
+    getUserType() {
+       console.log(this.$store.getters.getType)
+       return this.$store.getters.getType
+    }
+  }
 };
 </script>
 <style scoped></style>

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from './routes'
+import {store} from '../store'
 
 Vue.use(VueRouter)
 
@@ -13,6 +14,7 @@ Vue.use(VueRouter)
  * async/await or return a Promise which resolves
  * with the Router instance.
  */
+let router = null
 
 export default function (/* { store, ssrContext } */) {
   const Router = new VueRouter({
@@ -26,5 +28,24 @@ export default function (/* { store, ssrContext } */) {
     base: process.env.VUE_ROUTER_BASE
   })
 
+  Router.beforeEach((to, from, next) => {
+    if ((!to.meta.allowAnonymous && !store.getters.isAuthenticated)) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    } else if(store.getters.isAuthenticated && to.name == 'login') {
+      //if we are authenticated adn trying to access the login, redirect
+      next({
+        path: '/'
+      })
+    } else {
+      next()
+    }  
+  })
+
+  router = Router
   return Router
 }
+
+export {router}

@@ -2,7 +2,7 @@
   <q-page>
       <div class="row q-mt-md q-mr-md q-ml-sm q-col-gutter-sm">
         <div class="col-3 col-xs-12 col-md-3 col-xl-3">
-           <q-card class="my-card-home bg-primary">
+           <q-card class="my-card-home bg-primary" v-if="getType == 'lecturers'">
              <q-card-section class="text-white">
             <div class="text-h6 text-center">Course</div>
             </q-card-section>
@@ -16,7 +16,7 @@
           </q-card-section>
            </q-card>
         </div>
-        <div class="col-3  col-xs-12 col-xl-3 col-md-3">
+        <!-- <div class="col-3  col-xs-12 col-xl-3 col-md-3">
            <q-card class="my-card-home bg-primary">
              <q-card-section class="text-white">
             <div class="text-h6 text-center">Course Delegate</div>
@@ -30,7 +30,7 @@
             </q-item-section>
           </q-card-section>
            </q-card>
-        </div>
+        </div> -->
       </div>
   </q-page>
 </template>
@@ -44,9 +44,9 @@ export default {
      this.$store.dispatch("getNumberOfCoursePerLecturer").then(res => {
 
      })
-     this.$store.dispatch("getNumberOfCourseDelegates").then(res => {
+    //  this.$store.dispatch("getNumberOfCourseDelegates").then(res => {
 
-     })
+    //  })
   },
   computed:{
     getNumberOfCoursePerLecturer()
@@ -56,7 +56,10 @@ export default {
     getNumberOfCourseDelegate()
     { 
       return this.$store.getters.getNumberOfCourseDelegate;
-    } 
+    },
+    getType() {
+      this.$store.getters.getType
+    }
   }
 }
 </script>

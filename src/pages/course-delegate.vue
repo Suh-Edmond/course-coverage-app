@@ -46,37 +46,7 @@
       </q-card>
     </div> -->
     <div>
-      <q-table
-        class="q-pt-lg q-my-lg q-mx-xs col-xs-12 q-mx-md"
-        :data="getCourseDelegate"
-        :columns="columns"
-        row-key="id"
-        :filter="filter"
-      >
-        <template v-slot:top-left>
-          <div class="text-h5">
-            Course Delegate
-          </div>
-        </template>
-        <template v-slot:top-right>
-          <q-input
-            outlined
-            dense
-            :class="
-              $q.screen.xs
-                ? 'text-h6-sm q-mr-lg q-mb-lg q-mt-lg full-width'
-                : 'text-h6-sm q-mr-lg'
-            "
-            v-model="filter"
-            placeholder="Search"
-          >
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
          
-        </template>
-      </q-table>
     </div>
   </q-page>
 </template>
@@ -84,56 +54,18 @@
 export default {
   data() {
     return {
-      course_delegate: {
-        user_name: "",
-        matricule_number: "",
-        email: "",
-        telephone: "",
-        password: "",
-      },
-      showForm: false,
-      filter: "",
-      columns: [
-        {
-          name:"course_code",
-          align:"left",
-          label:"Course Code",
-          field:"course_code"
-        },
-        {
-          name:"title",
-          align:"left",
-          label:"Title",
-          field:"title"
-        },
-        {
-          name: "user_name",
-          align: "left",
-          label: "Name",
-          field: "user_name"
-        },
-        { name: "email", align: "left", label: "Email", field: "email" },
-        {
-          name: "telephone",
-          align: "left",
-          label: "Telephone",
-          field: "telephone"
-        }
-      ]
+      
     };
   },
-  mounted() {
-    this.$store
-      .dispatch("getCourseDelegates")
-      .then(res => {})
-      .catch(err => {});
-  },
+  // mounted() {
+  //   this.$store
+  //     .dispatch("getCourseDelegates")
+  //     .then(res => {})
+  //     .catch(err => {});
+  // },
 
   computed: {
-    getCourseDelegate() {
-      // console.log(this.$store.getters.getCourseDelegate)
-      return this.$store.getters.getCourseDelegate;
-    }
+    
   },
 
   methods: {
