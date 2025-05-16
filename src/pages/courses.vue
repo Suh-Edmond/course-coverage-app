@@ -53,7 +53,7 @@
                 class="full-width q-pa-xs text-center"
                 color="primary"
                 label="Add"
-                
+
               />
             </div>
           </q-form>
@@ -94,12 +94,12 @@
             :class="$q.screen.xs? 'full-width': ''"
             @click="showTable = !showTable"
           >
-            
+
           </q-btn>
         </template>
       </q-table>
     </div>
-     
+
   </q-page>
 </template>
 
@@ -147,13 +147,13 @@ export default {
     };
   },
   mounted(){
-    
+
        this.$store.dispatch("getAttendCourses").then(res => {
-        
+
        })
-    
+
   },
-   
+
   methods: {
     submitForm(){
       //console.log(this.course);
@@ -166,9 +166,9 @@ export default {
            color:"positive",
            position:"top-right"
         })
-        
+
        this.$store.dispatch("getAttendCourses").then(res => {
-        
+
        })
          this.showTable = false;
          this.course.course_code =null
@@ -211,7 +211,7 @@ export default {
 <style scoped>
 .my-card {
   width: 700px;
-  
+
 }
 .my-card2 {
   width: 700px;
